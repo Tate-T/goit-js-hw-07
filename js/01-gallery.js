@@ -13,7 +13,7 @@ const refs = {
   
   const listItemsMarkup = createListMarkup(galleryItems);
   
-  refs.gallery.insertAdjacentHTML("beforeend", listItemsMarkup);
+  refs.gallery.insertAdjacentHTML('beforeend', listItemsMarkup);
   
   function createListMarkup(items) {
     return items.map(({ preview, original, description }) => {
