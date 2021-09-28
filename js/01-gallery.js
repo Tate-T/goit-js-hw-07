@@ -1,10 +1,10 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
-console.log(galleryItems);
+// console.log(galleryItems);
 
 const refs = {
-    gallery: document.querySelector('.js-gallery'),
+    gallery: document.querySelector('.gallery'),
     openModalWindow: document.querySelector('.js-lightbox'),
     closeModalBtn: document.querySelector('[data-action="close-lightbox"]'),
     modalWindow: document.querySelector('.lightbox__content'),
