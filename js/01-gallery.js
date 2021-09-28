@@ -18,7 +18,7 @@ const refs = {
   function createListMarkup(items) {
     return items.map(({ preview, original, description }) => {
       return `
-      <li class="gallery__item">
+      <div class="gallery__item">
       <a 
         class="gallery__link" 
         href = "${original}">
@@ -29,7 +29,7 @@ const refs = {
           alt="${description}"
           />
       </a>
-    </li>
+    </div>
     `
     }).join('');
   }
