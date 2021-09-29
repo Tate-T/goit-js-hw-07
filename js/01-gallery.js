@@ -1,23 +1,14 @@
 import { galleryItems } from './gallery-items.js';
-// Change code below this line
 
-// console.log(galleryItems);
 
-const refs = {
-    gallery: document.querySelector('.gallery'),
-    openModalWindow: document.querySelector('.js-lightbox'),
-    closeModalBtn: document.querySelector('[data-action="close-lightbox"]'),
-    modalWindow: document.querySelector('.lightbox__content'),
-    bigImg: document.querySelector('.lightbox__image'),
-  }
-  
-  const listItemsMarkup = createListMarkup(galleryItems);
-  
-  refs.gallery.insertAdjacentHTML('beforeend', listItemsMarkup);
-  
-  function createListMarkup(items) {
-    return items.map(({ preview, original, description }) => {
-      return `
+
+const gallery = document.querySelector('.gallery');
+
+const listItemsMarkup = createListMarkup(galleryItems);
+
+function createListMarkup(items) {
+  return items.map(({ preview, original, description }) => {
+    return `
       <div class="gallery__item">
       <a 
         class="gallery__link" 
@@ -31,23 +22,34 @@ const refs = {
       </a>
     </div>
     `
-    }).join('');
-  }
+  }).join('');
+}
 
-  refs.gallery.addEventListener('click', onPictureClick);
+gallery.insertAdjacentHTML('beforeend', listItemsMarkup);
+
+gallery.addEventListener('click', onPictureClick);
 
 function onPictureClick(e) {
   e.preventDefault();
-  if (!e.target.classList.contains('gallery__image')) {
-    return
+  document.removeEventListener("keydown", onEscBtn);
+  if (e.target.nodeName !== "IMG") {
+    return;
   }
-  refs.openModalWindow.classList.add('is-open');
-  refs.bigImg.src = e.target.dataset.source;
-}
+  const instance = basicLightbox.create(`<img src="${e.target.dataset.source}">`,
+    {
+      onClose: (instance) => {
+        document.removeEventListener("keydown", onEscBtn);
+      }
+    });
 
-refs.openModalWindow.addEventListener('click', toggleModal);
-refs.closeModalBtn.addEventListener('click', toggleModal);
+  instance.show();
 
-function toggleModal(e) {
-  refs.openModalWindow.classList.toggle('is-open');
+  document.addEventListener("keydown", onEscBtn);
+
+  function onEscBtn(e) {
+    if (e.code === "Escape") {
+      instance.close();
+      document.removeEventListener("keydown", onEscBtn);
+    }
+  };
 }
